@@ -1,6 +1,7 @@
 #define JSClick 13
 #define JSx A1
 #define JSy A0
+byte beginBluetooth;
 int x;
 int y;
 
@@ -12,6 +13,7 @@ void setup() {
 
   x = 0;
   y = 0;
+  beginBluetooth = B11110000;
 }
 
 void loop() {
@@ -22,7 +24,9 @@ void loop() {
   bool right = x > 520;
   bool forward = y > 520;
   bool back = y < 450;
+
   
+  Serial.write(beginBluetooth);
   writeMotorState(forward, back, left, right);
 
   bool clicked = digitalRead(JSClick);
@@ -63,7 +67,7 @@ void writeMotorState(bool forward, bool back, bool left, bool right) {
     Serial.write(2);
   }
   else if(back && !left && !right) {
-    Serial.println(5);
+    Serial.write(5);
   }
   else if(back && left) {
     Serial.write(4);

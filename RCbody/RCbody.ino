@@ -6,6 +6,7 @@
 bool ledState;
 bool ledClicked;
 int motorState;
+byte beginBluetooth = B11110000;
 
 void setup() {
   pinMode(lmotor, OUTPUT);
@@ -17,9 +18,13 @@ void setup() {
 }
 
 void loop() {
+  while(Serial.read() != beginBluetooth) {
+    //Wait until bluetooth stream has begin
+  }
+  
   //Read bluetooth values
-  //motorState = Serial.read();
-  //ledClicked = Serial.read();
+  motorState = Serial.read();
+  ledClicked = Serial.read();
   
   if(ledClicked) {
     ledState = !ledState;

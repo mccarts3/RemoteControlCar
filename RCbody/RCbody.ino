@@ -15,7 +15,7 @@ void setup() {
   pinMode(led2, OUTPUT);
   ledState = false;
 //  ledClicked = false;
-  driveState = B0;
+  driveState = 0;
   Serial.begin(9600);
 }
 

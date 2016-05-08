@@ -1,48 +1,47 @@
 #define lmotor 11
 #define rmotor 6
-#define leds 2
-#define btRx 1      // Need to implement
-#define btTx 0      // Need to implement
+#define led1 4
+#define led2 7
+#define btRx 1   
+#define btTx 0     
+ 
 bool ledState;
-bool ledClicked;
-int motorState;
-byte beginBluetooth = B11110000;
+int driveState;
 
 void setup() {
   pinMode(lmotor, OUTPUT);
   pinMode(rmotor, OUTPUT);
-  pinMode(leds, OUTPUT);
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
   ledState = false;
-  ledClicked = false;
-  motorState = 0;
+//  ledClicked = false;
+  driveState = B0;
+  Serial.begin(9600);
 }
 
 void loop() {
-  while(Serial.read() != beginBluetooth) {
-    //Wait until bluetooth stream has begin
-  }
-  
   //Read bluetooth values
-  motorState = Serial.read();
-  ledClicked = Serial.read();
+  driveState = Serial.read();
   
-  if(ledClicked) {
+  if(driveState >= 10)
     ledState = !ledState;
-    outputLEDs(ledState);
-    delay(500);
-  }
   
-  outputMotors(motorState);
+  outputLEDs(ledState);
+  outputMotors(driveState%10);
 }
 
 /*
  * Outputs the LED headlights
  */
 void outputLEDs(bool s) {
-  if(s) 
-    digitalWrite(leds, HIGH);
-  else
-    digitalWrite(leds, LOW);
+  if(s) {
+    digitalWrite(led1, HIGH);
+    digitalWrite(led2, HIGH);
+  }
+  else {
+    digitalWrite(led1, LOW);
+    digitalWrite(led2, LOW);
+  }
 }
 
 /*

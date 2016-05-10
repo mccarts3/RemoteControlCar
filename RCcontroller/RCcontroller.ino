@@ -64,6 +64,6 @@ void writeMotorState(bool forward, bool back, bool left, bool right, bool clicke
   if(clicked)
     driveState += 10;
 
-  Serial.write(driveState);
+  Serial.println(driveState);
 }
 

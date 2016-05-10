@@ -20,14 +20,17 @@ void setup() {
 }
 
 void loop() {
-  //Read bluetooth values
-  driveState = Serial.read();
-  
-  if(driveState >= 10)
-    ledState = !ledState;
-  
-  outputLEDs(ledState);
-  outputMotors(driveState%10);
+  if( Serial.available() )       // if data is available to read
+  {
+    //Read bluetooth values
+    driveState = (int)Serial.read();
+    
+    if(driveState >= 10)
+      ledState = !ledState;
+    
+    outputLEDs(ledState);
+    outputMotors(driveState%10);
+  }
 }
 
 /*
